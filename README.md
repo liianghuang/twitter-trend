@@ -15,9 +15,9 @@ Twitter is the most used microblog social media platform, which people talks abo
 
 ## How to install and get it up and running
 * Instances
-   * Spark - 4 $\times$ c5.xlarge for streaming,4 $\times$ m5a.xlarge for batch processing 
-   * Kafka - 3 $\times$ i3.large
-   * Cassandra - 3 $\times$ m4.large
+   * Spark - 4 * c5.xlarge for streaming,4 * m5a.xlarge for batch processing 
+   * Kafka - 3 * i3.large
+   * Cassandra - 3 * m4.large
    * Frontend - t2.micro
 
 See the [setup](./setup/) folder detailed configurations.
