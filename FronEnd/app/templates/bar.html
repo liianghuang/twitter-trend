@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script>
+window.onload = function () {
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	title: {
+		text: "Number of Tweets"
+	},
+	axisY: {
+		title: "Tweets",
+		suffix: ""
+	},
+	data: [{
+		type: "column",	
+		yValueFormatString: "#,###",
+		indexLabel: "{y}",
+		dataPoints: [
+			{ label: "boiler1", y: 2000 },
+			{ label: "boiler2", y: 163 },
+			{ label: "boiler3", y: 154 },
+			{ label: "boiler4", y: 176 },
+			{ label: "boiler5", y: 184 },
+			{ label: "boiler6", y: 122 }
+		]
+	}]
+});
+
+function compare(a,b) {
+    if (a.y < b.y)
+        return 1;
+    if (a.y > b.y)
+        return -1;
+    return 0;
+}
+
+function updateChart() {
+    var boilerColor, deltaY, yVal;
+    var dps = chart.options.data[0].dataPoints;
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var tweet_info = JSON.parse(this.responseText);
+            tweets = Object.keys(tweet_info);
+            for (var i = 0; i < tweets.length; i++) {
+                yVal = tweet_info[tweets[i]];
+                boilerColor = "#33FF90";
+                dps[i] = {label: tweets[i] , y: yVal, color: "#33FF90"};
+            }
+            dps.sort(compare);
+            chart.options.data[0].dataPoints = dps; 
+            chart.render();
+        }
+    };
+    xhttp.open("GET", "update", true);
+    xhttp.send();
+};
+updateChart();
+
+setInterval(function() {updateChart()}, 5000);
+
+}
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 370px; width: 80;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>
+
